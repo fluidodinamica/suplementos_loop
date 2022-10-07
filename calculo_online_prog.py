@@ -26,6 +26,7 @@ Longitudes = np.array([6532.7,6532.7+290+1590.7+290,6532.7+(290+1590.7+290)*2,
 Li = Longitudes[-1]
 def f_calcula(b=1):
     mu = viscosidad.value/1000
+    rho = densidad.value
     #mu = 14e-4
     delta_w = espesor_w_i.value*1e-3
     G = caudal_i.value/1000/60
@@ -45,12 +46,6 @@ def f_calcula(b=1):
     deltap1 = Li/D_interno_1 * rho/2*U**2*f/psipa
     deltap2 = Li/(D_interno_1-2*delta_w) * rho/2*U2**2*f/psipa
 
-
-
-    c = 64; n = 1;
-    aux1  = 2*c*rho*Li*(mu/rho)**n*(4*G/np.pi)**(5-n)
-    aux2 = (D_interno_1-2*delta_w)**(5-n)
-    deltap_f1 = aux1/aux2
     display(Latex(f'$\Delta P_f = $ {deltap1:.3g}'))
     salida_presion.value = f'$\Delta p_0 = $ {deltap1:.2f} psi'
     salida_presion_w.value = f'$\Delta p_w = $ {deltap2:.2f} psi'
@@ -70,7 +65,8 @@ espesor_w_i = widgets.FloatSlider( value=1,     min=1,     max=4,     step=0.1,
     readout_format='.1f' ,style={'description_width': '100px'})
 viscosidad = widgets.FloatText(    value=np.around(mu*1000,3),     description='$\mu[cP]$',
                                disabled=False,step=0.05,readout_format='.2f')
-
+densidad = widgets.FloatText(    value=np.around(rho),     description='$\rho[kg/m^3]$',
+                               disabled=False,step=2,readout_format='.2f')
 Reynolds = widgets.Label('Re=')
 boton_calcula = widgets.Button(description='calcula')
 salida_presion = widgets.Label(value='$\Delta p_0=$')
@@ -89,7 +85,7 @@ salida_tension_w.layout=widgets.Layout(width='110px')
 Reynolds.layout=widgets.Layout(width='130px')
 boton_calcula.on_click(f_calcula)
 parametros_input = widgets.VBox() 
-parametros_input.children = ([caudal_i,espesor_w_i,viscosidad])
+parametros_input.children = ([caudal_i,espesor_w_i,viscosidad,densidad])
 panel_control = widgets.VBox(layout={'border': '1px solid black'})
 panel_salida_Re = widgets.VBox(layout={'border': '1px solid black'})
 panel_salida_p = widgets.VBox(layout={'border': '1px solid black'})
