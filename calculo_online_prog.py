@@ -65,7 +65,7 @@ espesor_w_i = widgets.FloatSlider( value=1,     min=1,     max=4,     step=0.1,
     readout_format='.1f' ,style={'description_width': '100px'})
 viscosidad = widgets.FloatText(    value=np.around(mu*1000,3),     description='$\mu[cP]$',
                                disabled=False,step=0.05,readout_format='.2f')
-densidad = widgets.FloatText(    value=np.around(rho),     description='$\rho[kg/m^3]$',
+densidad = widgets.FloatText(    value=np.around(rho),     description='$\\rho[kg/m^3]$',
                                disabled=False,step=2,readout_format='.2f')
 Reynolds = widgets.Label('Re=')
 boton_calcula = widgets.Button(description='calcula')
